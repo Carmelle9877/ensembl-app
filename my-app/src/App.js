@@ -3,39 +3,43 @@ import logo from './logo.svg';
 import SearchBox from './SearchBox';
 import './App.css';
 import { useState } from 'react'
+import GenomicsTable from './GenomicsTable';
 
 
 function App() {
   const [data, setData] = useState(0);
-  const [columns, setColumns] = useState([]);
-
-  const cols = ['Protein no.', 'Species', 'Gene size'];
-
-  console.log('data', data)
+  const [rows, setRows] = useState([]);
+  const [cols, setCols] = useState([]);
 
   function returnCols(geneticCode) {
-    console.log('Genetic code', geneticCode)
-    const colsOfInterest = ['source.protein_id', 'source.species', 'taxonomy_level', 'type'];
-    columns = []
-    for (let i in colsOfInterest) {
-      console.log(i)
-    }
+    const firstRow = geneticCode.data[0].homologies[0].source
+    const columns = [];
+    const rows = [];
 
+    for (let col_name in firstRow) {
+      console.log('col', col_name)
+      columns.push(col_name)
+    }
+ 
+    rows.push(firstRow)
+    
+    console.log("columns are", columns)
+    console.log("rows are", rows)
+    setRows(rows);
+    setCols(columns);
   }
 
   async function logData() {
     console.log('Fetching data...')
     const response = await fetch("https://rest.ensembl.org/homology/symbol/human/BRCA1?content-type=application/json");
-    console.log(response)
+    //console.log(response)
 
     const genomics = await response.json();
-    console.log(genomics);
+    //console.log(genomics);
     setData(genomics)
-    console.log(data.data[0].homologies[0])
-    returnCols(data.data[0].homologies[0])
+    
+    returnCols(genomics)
     }
-
-    console.log('new Data', data)
 
 
   return (
@@ -46,7 +50,8 @@ function App() {
           Genetic codes
         </strong>
 
-        <SearchBox></SearchBox>
+        <SearchBox> </SearchBox>
+        <GenomicsTable rows={rows} cols={cols}/>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -70,6 +75,8 @@ function App() {
             <p>Here is {item}</p>
           )
         })}
+
+
        
       </header>
     </div>

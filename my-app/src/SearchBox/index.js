@@ -6,6 +6,9 @@ export default function SearchBox() {
       component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
+        //backgroundColor:"white"
+        
+        
       }}
       noValidate
       autoComplete="off"
