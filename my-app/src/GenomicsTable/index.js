@@ -8,35 +8,24 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { useState, useEffect } from 'react'
+
 
 export default function GenomicsTable(props) {
-    console.log("rows and columsn", props.rows, props.cols)
-    props.cols.map((i) => {
-        console.log("cols", i)
-    })
-    props.rows.map((i) => {
-        console.log("rows", i)
-    })
+    const [rows, setRows] = useState([]);
+    const [cols, setCols] = useState([]);
 
-    return(
-       <TableContainer component = {Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {props.cols.map((i) => {
-                            {console.log("hello")}
-                            <TableCell>{i}</TableCell>
-                        })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow key="0">
-                        {props.rows.map((i) => {
-                            <TableCell>{i}</TableCell>
-                        }) }
-                    </TableRow>
-                </TableBody>
-            </Table>
-       </TableContainer>
+    console.log(props.rows, props.cols)
+
+    return (
+        <div>
+            <DataGrid
+                rows={props.rows}
+                columns = {props.cols}
+                checkboxSelection
+            
+            />
+        </div>
+        
     )
 }
